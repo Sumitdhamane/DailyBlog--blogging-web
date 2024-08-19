@@ -6,7 +6,7 @@ import { FaMoon } from "react-icons/fa";
 function Header() {
   const path = useLocation().pathname;
   return (
-    <Navbar className="border-b-2 py-1 flex justify-evenly items-center">
+    <Navbar className="border-b-2 px-5 py-1.5 flex items-center justify-between">
       <Link
         to="/"
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
@@ -26,7 +26,6 @@ function Header() {
         <AiOutlineSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
       </form>
 
-      {/* Regular links visible on larger screens */}
       <div className="">
         <Link to="/" className="mx-5">
           Home
@@ -55,7 +54,19 @@ function Header() {
             Sign In
           </Button>
         </Link>
+        {/* <Navbar.Toggle /> */}
       </div>
+      {/* <Navbar.Collapse className="mx-2">
+        <Navbar.Link active={path === "/"} as={"div"}>
+          <Link to="/">Home</Link>
+        </Navbar.Link>
+        <Navbar.Link active={path === "/about"} as={"div"}>
+          <Link to="/about">About</Link>
+        </Navbar.Link>
+        <Navbar.Link active={path === "/projects"} as={"div"}>
+          <Link to="/projects">Projects</Link>
+        </Navbar.Link>
+      </Navbar.Collapse> */}
     </Navbar>
   );
 }
