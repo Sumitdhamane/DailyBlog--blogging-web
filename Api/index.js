@@ -1,12 +1,13 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import userRoutes from "./routes/user.route.js";
 
 dotenv.config();
 
 if (!process.env.MONGOOSE) {
   console.error("MONGOOSE connection string is not defined in .env file.");
-  process.exit(1); // Exit the application
+  process.exit(1);
 }
 
 mongoose
@@ -25,3 +26,5 @@ const app = express();
 app.listen(3000, () => {
   console.log("Server is running perfectly");
 });
+
+app.use("/api/user", userRoutes);
