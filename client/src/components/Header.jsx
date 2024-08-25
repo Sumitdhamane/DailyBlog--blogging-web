@@ -50,23 +50,23 @@ function Header() {
         </Button>
 
         <Link to="/signin">
-          <Button className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+          <Button gradientDuoTone="purpleToBlue" outline>
             Sign In
           </Button>
         </Link>
-        {/* <Navbar.Toggle /> */}
+        <Navbar.Toggle />
       </div>
-      {/* <Navbar.Collapse className="mx-2">
-        <Navbar.Link active={path === "/"} as={"div"}>
+      <Navbar.Collapse className="mx-2">
+        <Navbar.Link>
           <Link to="/">Home</Link>
         </Navbar.Link>
-        <Navbar.Link active={path === "/about"} as={"div"}>
+        <Navbar.Link>
           <Link to="/about">About</Link>
         </Navbar.Link>
-        <Navbar.Link active={path === "/projects"} as={"div"}>
+        <Navbar.Link>
           <Link to="/projects">Projects</Link>
         </Navbar.Link>
-      </Navbar.Collapse> */}
+      </Navbar.Collapse>
     </Navbar>
   );
 }
