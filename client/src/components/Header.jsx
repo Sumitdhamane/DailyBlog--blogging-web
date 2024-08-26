@@ -26,7 +26,7 @@ function Header() {
         <AiOutlineSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
       </form>
 
-      <div className="">
+      <div className="sm:hidden lg:inline">
         <Link to="/" className="mx-5">
           Home
         </Link>
