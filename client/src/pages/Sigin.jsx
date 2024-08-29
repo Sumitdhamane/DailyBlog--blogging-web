@@ -18,29 +18,41 @@ export default function Signin() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Basic validation check
     if (!formData.email || !formData.password) {
       return dispatch(signInFailure("Please fill all the fields"));
     }
+
     try {
+      // Start the sign-in process
       dispatch(signInStart());
-      const res = await fetch("/api/auth/signin", {
+
+      const response = await fetch("/api/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-      const data = await res.json();
-      if (data.success === false) {
-        dispatch(signInFailure(data.message));
+
+      const data = await response.json();
+
+      // Check if the response is not okay
+      if (!response.ok) {
+        // Handle unsuccessful sign-in (bad credentials, etc.)
+        const errorMessage = data.message || "Sign in failed";
+        dispatch(signInFailure(errorMessage));
+        return;
       }
 
-      if (res.ok) {
-        dispatch(signInSuccess(data));
-        navigate("/");
-      }
+      // Handle successful sign-in
+      dispatch(signInSuccess(data));
+      navigate("/");
     } catch (error) {
-      dispatch(signInFailure(error.message));
+      // Handle any network or unexpected errors
+      dispatch(signInFailure(error.message || "Something went wrong"));
     }
   };
+
   return (
     <div className="min-h-screen mt-20">
       <div className="flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5">
@@ -79,24 +91,13 @@ export default function Signin() {
                 onChange={handleChange}
               />
             </div>
-            <Button
-              gradientDuoTone="purpleToPink"
-              type="submit"
-              disabled={loading}
-            >
-              {loading ? (
-                <>
-                  <Spinner size="sm" />
-                  <span className="pl-3">Loading...</span>
-                </>
-              ) : (
-                "Sign In"
-              )}
+            <Button gradientDuoTone="purpleToPink" type="submit">
+              Sign In
             </Button>
           </form>
           <div className="flex gap-2 text-sm mt-5">
             <span>Dont Have an account?</span>
-            <Link to="/sign-up" className="text-blue-500">
+            <Link to="/signup" className="text-blue-500">
               Sign Up
             </Link>
           </div>
