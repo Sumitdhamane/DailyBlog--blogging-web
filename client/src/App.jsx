@@ -7,6 +7,7 @@ import Sigin from "./pages/Sigin";
 import Signup from "./pages/Signup";
 import Header from "./components/Header";
 import Footer from "./components/Footer.jsx";
+import PrivateProject from "./components/PrivateProject.jsx";
 export default function App() {
   return (
     <BrowserRouter>
@@ -14,7 +15,9 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route element={<PrivateProject />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
         <Route path="/projects" element={<Projects />} />
         <Route path="/signin" element={<Sigin />} />
         <Route path="/signup" element={<Signup />} />
