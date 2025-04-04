@@ -9,7 +9,7 @@ import {
 } from "../redux/user/userSlice";
 import OAuth from "../components/OAuth";
 
-export default function Signin() {
+export default function SignIn() {
   const [formData, setFormData] = useState({});
   const { loading, error: errorMessage } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -19,41 +19,29 @@ export default function Signin() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Basic validation check
     if (!formData.email || !formData.password) {
       return dispatch(signInFailure("Please fill all the fields"));
     }
-
     try {
-      // Start the sign-in process
       dispatch(signInStart());
-
-      const response = await fetch("/api/auth/signin", {
+      const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-
-      const data = await response.json();
-
-      // Check if the response is not okay
-      if (!response.ok) {
-        // Handle unsuccessful sign-in (bad credentials, etc.)
-        const errorMessage = data.message || "Sign in failed";
-        dispatch(signInFailure(errorMessage));
-        return;
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(signInFailure(data.message));
       }
 
-      // Handle successful sign-in
-      dispatch(signInSuccess(data));
-      navigate("/");
+      if (res.ok) {
+        dispatch(signInSuccess(data));
+        navigate("/");
+      }
     } catch (error) {
-      // Handle any network or unexpected errors
-      dispatch(signInFailure(error.message || "Something went wrong"));
+      dispatch(signInFailure(error.message));
     }
   };
-
   return (
     <div className="min-h-screen mt-20">
       <div className="flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5">
@@ -61,13 +49,13 @@ export default function Signin() {
         <div className="flex-1">
           <Link to="/" className="font-bold dark:text-white text-4xl">
             <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white">
-              Daily
+              Sahand's
             </span>
             Blog
           </Link>
           <p className="text-sm mt-5">
-            Join our blogging community today! Sign up now to share your stories
-            and connect with like-minded writers.
+            This is a demo project. You can sign in with your email and password
+            or with Google.
           </p>
         </div>
         {/* right */}
@@ -92,10 +80,15 @@ export default function Signin() {
                 onChange={handleChange}
               />
             </div>
-            <Button gradientDuoTone="purpleToPink" type="submit">
+            <Button
+              gradientDuoTone="purpleToPink"
+              type="submit"
+              disabled={loading}
+            >
               {loading ? (
                 <>
-                  <Spinner size="sm" /> <span className="pl-3">Loading...</span>
+                  <Spinner size="sm" />
+                  <span className="pl-3">Loading...</span>
                 </>
               ) : (
                 "Sign In"
@@ -105,7 +98,7 @@ export default function Signin() {
           </form>
           <div className="flex gap-2 text-sm mt-5">
             <span>Dont Have an account?</span>
-            <Link to="/signup" className="text-blue-500">
+            <Link to="/sign-up" className="text-blue-500">
               Sign Up
             </Link>
           </div>
